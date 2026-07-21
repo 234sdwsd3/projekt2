@@ -261,7 +261,7 @@
     <script>
         let currentCategory = '';
 
-        // Adatok eltárolása
+        // Adatok eltárolása (minden kulcs kisbetűs)
         const data = {
             spoofer: [
                 {
@@ -273,25 +273,69 @@
             valorant: [
                 {
                     title: "Synapse triggerbot",
-                    description: "",
+                    description: "No description provided.",
                     downloadUrl: "https://work.ink/2Lho/synapse-valorant"
                 }
             ],
             fivem: [
                 {
                     title: "Keyser1.5 cracked",
-                    description: "",
+                    description: "No description provided.",
                     downloadUrl: "https://work.ink/2Lho/keyser-crack"
                 }
             ],
             fortnite: [
                 {
                     title: "Kainite",
-                    description: "",
+                    description: "No description provided.",
                     downloadUrl: "https://work.ink/2Lho/fortnite-kainite"
                 }
             ]
         };
+
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+        }
+
+        function openCategory(catKey) {
+            // Kisbetűssé alakítjuk, hogy a hivatkozás biztosan megtalálja a kulcsot
+            currentCategory = catKey.toLowerCase();
+            
+            const categoryName = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1);
+            document.getElementById('categoryTitle').innerText = categoryName;
+
+            const grid = document.getElementById('itemsGrid');
+            grid.innerHTML = '';
+
+            const items = data[currentCategory] || [];
+
+            if (items.length === 0) {
+                grid.innerHTML = '<p style="color: #a0a5b1; grid-column: 1/-1;">No items available yet.</p>';
+            } else {
+                items.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.onclick = () => openDetail(index);
+                    card.innerHTML = `<h3>${item.title}</h3>`;
+                    grid.appendChild(card);
+                });
+            }
+
+            showView('itemsView');
+        }
+
+        function openDetail(index) {
+            const item = data[currentCategory][index];
+            if (!item) return;
+
+            document.getElementById('detailTitle').innerText = item.title;
+            document.getElementById('detailDescription').innerText = item.description || "No description provided.";
+            document.getElementById('detailDownloadLink').href = item.downloadUrl || '#';
+
+            showView('detailView');
+        }
+    </script>
 
         function showView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
