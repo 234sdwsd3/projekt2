@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Downloads & Clients</title>
+    <title>Downloads & Tools</title>
     <style>
         * {
             margin: 0;
@@ -47,7 +47,7 @@
         /* Fő konténer */
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 850px;
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -94,12 +94,12 @@
             display: inline-block;
         }
 
-        /* Lista nézet (Grid) */
-        .downloads-grid {
+        /* Rács elrendezés */
+        .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
         .card {
@@ -127,18 +127,18 @@
             color: #ffffff;
         }
 
-        /* Részletek nézet */
-        .detail-view {
+        /* Nézetek elrejtése/megjelenítése */
+        .view {
             display: none;
             flex-direction: column;
             align-items: center;
-            text-align: center;
         }
 
-        .detail-view.active {
+        .view.active {
             display: flex;
         }
 
+        /* Részletek elemei */
         .preview-img {
             max-width: 100%;
             max-height: 280px;
@@ -157,12 +157,14 @@
             max-width: 600px;
         }
 
+        /* Gombok */
         .btn-group {
             display: flex;
             gap: 15px;
             justify-content: center;
             width: 100%;
             max-width: 400px;
+            margin-top: 15px;
         }
 
         .btn {
@@ -200,7 +202,7 @@
 </head>
 <body>
 
-    <!-- Hópelyhek generálása -->
+    <!-- Hópelyhek -->
     <script>
         function createSnowflake() {
             const flake = document.createElement('div');
@@ -212,78 +214,121 @@
             flake.style.fontSize = Math.random() * 10 + 10 + 'px';
             document.body.appendChild(flake);
 
-            setTimeout(() => {
-                flake.remove();
-            }, 5000);
+            setTimeout(() => { flake.remove(); }, 5000);
         }
         setInterval(createSnowflake, 150);
     </script>
 
     <div class="container">
-        <!-- Kezdőoldal tartalom -->
-        <div id="mainView">
+        
+        <!-- 1. FŐOLDAL: Kategóriák -->
+        <div id="categoriesView" class="view active">
             <h1>Welcome!</h1>
-            <p class="subtitle">Here are the best free & cracked cheats</p>
+            <p class="subtitle">Select a category below</p>
             <div class="arrow">↓</div>
 
-            <h2 class="section-title">Downloads</h2>
+            <h2 class="section-title">Categories</h2>
 
-            <div class="downloads-grid">
-                <div class="card" onclick="showDetail('vape')">
-                    <h3>VapeV4 (crack) 1.8.9</h3>
+            <div class="grid-container">
+                <div class="card" onclick="openCategory('spoofer')">
+                    <h3>Spoofer</h3>
                 </div>
-                <div class="card" onclick="showDetail('volt')">
-                    <h3>Volt 1.21.1</h3>
+                <div class="card" onclick="openCategory('valorant')">
+                    <h3>Valorant</h3>
+                </div>
+                <div class="card" onclick="openCategory('fivem')">
+                    <h3>FiveM</h3>
+                </div>
+                <div class="card" onclick="openCategory('fortnite')">
+                    <h3>Fortnite</h3>
                 </div>
             </div>
         </div>
 
-        <!-- Részletek nézet -->
-        <div id="detailView" class="detail-view">
-            <h2 id="detailTitle" class="section-title">Client Name</h2>
-            <img id="detailImage" class="preview-img" src="" alt="Client Preview">
+        <!-- 2. KATEGÓRIA LISTA NÉZET -->
+        <div id="itemsView" class="view">
+            <h2 id="categoryTitle" class="section-title">Category Name</h2>
+            <div id="itemsGrid" class="grid-container" style="width: 100%;">
+                <!-- Ide töltődnek be az elemek JS-ből -->
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-back" onclick="showView('categoriesView')">← Back to Categories</button>
+            </div>
+        </div>
+
+        <!-- 3. RÉSZLETES RÉSZ (Kép + Leírás + Letöltés) -->
+        <div id="detailView" class="view">
+            <h2 id="detailTitle" class="section-title">Item Title</h2>
+            <img id="detailImage" class="preview-img" src="" alt="Preview">
             <p id="detailDescription" class="description"></p>
             
             <div class="btn-group">
-                <button class="btn btn-back" onclick="showMain()">Back</button>
+                <button class="btn btn-back" onclick="showView('itemsView')">← Back</button>
                 <a id="detailDownloadLink" href="#" class="btn btn-download" target="_blank">Download</a>
             </div>
         </div>
+
     </div>
 
     <script>
-        // Adatok tárolása
-        const clientsData = {
-            vape: {
-                title: "VapeV4 (crack) 1.8.9",
-                image: "vape.png",
-                description: "Get an unfair advantage over your opponents, while remaining completely undetected.",
-                downloadUrl: "https://work.ink/2Lho/vape-v4-crack" // Ide írd majd a letöltési linket
-            },
-            volt: {
-                title: "Volt 1.21.1",
-                image: "volt.png",
-                description: "Volt Client is a FOSS Minecraft ghost client. It was initially supposed to be paid however they decided to make it free. The client seems to be very good and, espicially the triggerbot. It should work for both 1.21.1 and 1.21 Minecraft Fabric.",
-                downloadUrl: "https://linktw.in/rvJrOq" // Ide írd majd a letöltési linket
-            }
+        // Adatszerkezet a kategóriákhoz és elemekhez
+        let currentCategory = '';
+
+        const data = {
+            spoofer: [
+                // Majd ide jönnek az elemek
+            ],
+            valorant: [
+                // Majd ide jönnek az elemek
+            ],
+            fivem: [
+                // Majd ide jönnek az elemek
+            ],
+            fortnite: [
+                // Majd ide jönnek az elemek
+            ]
         };
 
-        function showDetail(key) {
-            const client = clientsData[key];
-            if (!client) return;
-
-            document.getElementById('detailTitle').innerText = client.title;
-            document.getElementById('detailImage').src = client.image;
-            document.getElementById('detailDescription').innerText = client.description;
-            document.getElementById('detailDownloadLink').href = client.downloadUrl;
-
-            document.getElementById('mainView').style.display = 'none';
-            document.getElementById('detailView').classList.add('active');
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
         }
 
-        function showMain() {
-            document.getElementById('detailView').classList.remove('active');
-            document.getElementById('mainView').style.display = 'block';
+        function openCategory(catKey) {
+            currentCategory = catKey;
+            const categoryName = catKey.charAt(0).toUpperCase() + catKey.slice(1);
+            document.getElementById('categoryTitle').innerText = categoryName;
+
+            const grid = document.getElementById('itemsGrid');
+            grid.innerHTML = '';
+
+            const items = data[catKey] || [];
+
+            if (items.length === 0) {
+                grid.innerHTML = '<p style="color: #a0a5b1; grid-column: 1/-1;">No items available yet.</p>';
+            } else {
+                items.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.onclick = () => openDetail(index);
+                    card.innerHTML = `<h3>${item.title}</h3>`;
+                    grid.appendChild(card);
+                });
+            }
+
+            showView('itemsView');
+        }
+
+        function openDetail(index) {
+            const item = data[currentCategory][index];
+            if (!item) return;
+
+            document.getElementById('detailTitle').innerText = item.title;
+            document.getElementById('detailImage').src = item.image || '';
+            document.getElementById('detailDescription').innerText = item.description || '';
+            document.getElementById('detailDownloadLink').href = item.downloadUrl || '#';
+
+            showView('detailView');
         }
     </script>
 
