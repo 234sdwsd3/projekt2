@@ -138,22 +138,11 @@
             display: flex;
         }
 
-        /* Részletek elemei */
-        .preview-img {
-            max-width: 100%;
-            max-height: 280px;
-            border-radius: 12px;
-            margin: 20px 0;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            object-fit: contain;
-        }
-
         .description {
             color: #d1d5db;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             line-height: 1.6;
-            margin-bottom: 25px;
+            margin: 20px 0 30px 0;
             max-width: 600px;
         }
 
@@ -202,7 +191,7 @@
 </head>
 <body>
 
-    <!-- Hópelyhek -->
+    <!-- Hópelyhek generálása -->
     <script>
         function createSnowflake() {
             const flake = document.createElement('div');
@@ -224,7 +213,7 @@
         <!-- 1. FŐOLDAL: Kategóriák -->
         <div id="categoriesView" class="view active">
             <h1>Welcome!</h1>
-            <p class="subtitle">Select a category below</p>
+            <p class="subtitle">Get the best cracked spoofers & cheats</p>
             <div class="arrow">↓</div>
 
             <h2 class="section-title">Categories</h2>
@@ -249,17 +238,16 @@
         <div id="itemsView" class="view">
             <h2 id="categoryTitle" class="section-title">Category Name</h2>
             <div id="itemsGrid" class="grid-container" style="width: 100%;">
-                <!-- Ide töltődnek be az elemek JS-ből -->
+                <!-- Elemek betöltése dinamikusan JS-ből -->
             </div>
             <div class="btn-group">
                 <button class="btn btn-back" onclick="showView('categoriesView')">← Back to Categories</button>
             </div>
         </div>
 
-        <!-- 3. RÉSZLETES RÉSZ (Kép + Leírás + Letöltés) -->
+        <!-- 3. RÉSZLETES NÉZET (Leírás + Letöltés) -->
         <div id="detailView" class="view">
             <h2 id="detailTitle" class="section-title">Item Title</h2>
-            <img id="detailImage" class="preview-img" src="" alt="Preview">
             <p id="detailDescription" class="description"></p>
             
             <div class="btn-group">
@@ -271,21 +259,37 @@
     </div>
 
     <script>
-        // Adatszerkezet a kategóriákhoz és elemekhez
         let currentCategory = '';
 
+        // Adatok eltárolása
         const data = {
             spoofer: [
-                // Majd ide jönnek az elemek
+                {
+                    title: "Vmax cracked",
+                    description: "EAC/BE",
+                    downloadUrl: "https://work.ink/2Lho/vmax-crack"
+                }
             ],
             valorant: [
-                // Majd ide jönnek az elemek
+                {
+                    title: "Synapse triggerbot",
+                    description: "",
+                    downloadUrl: "https://work.ink/2Lho/synapse-valorant"
+                }
             ],
             fivem: [
-                // Majd ide jönnek az elemek
+                {
+                    title: "Keyser1.5 cracked",
+                    description: "",
+                    downloadUrl: "https://work.ink/2Lho/keyser-crack"
+                }
             ],
             fortnite: [
-                // Majd ide jönnek az elemek
+                {
+                    title: "Kainite",
+                    description: "",
+                    downloadUrl: "https://work.ink/2Lho/fortnite-kainite"
+                }
             ]
         };
 
@@ -324,8 +328,7 @@
             if (!item) return;
 
             document.getElementById('detailTitle').innerText = item.title;
-            document.getElementById('detailImage').src = item.image || '';
-            document.getElementById('detailDescription').innerText = item.description || '';
+            document.getElementById('detailDescription').innerText = item.description || "No description provided.";
             document.getElementById('detailDownloadLink').href = item.downloadUrl || '#';
 
             showView('detailView');
