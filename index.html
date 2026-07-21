@@ -145,7 +145,7 @@
             border-radius: 12px;
             margin: 20px 0;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 20px rgba(0,0, 0, 0.4);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             object-fit: contain;
         }
 
@@ -229,9 +229,6 @@
             <h2 class="section-title">Downloads</h2>
 
             <div class="downloads-grid">
-                <div class="card" onclick="showDetail('breeze')">
-                    <h3>Breeze 1.8.9</h3>
-                </div>
                 <div class="card" onclick="showDetail('vape')">
                     <h3>VapeV4 (crack) 1.8.9</h3>
                 </div>
@@ -249,7 +246,7 @@
             
             <div class="btn-group">
                 <button class="btn btn-back" onclick="showMain()">Back</button>
-                <a id="detailDownloadLink" href="#" class="btn btn-download" download>Download</a>
+                <a id="detailDownloadLink" href="#" class="btn btn-download" target="_blank">Download</a>
             </div>
         </div>
     </div>
@@ -257,23 +254,17 @@
     <script>
         // Adatok tárolása
         const clientsData = {
-            breeze: {
-                title: "Breeze 1.8.9",
-                image: "breeze.png", // Töltsd fel ezt a képet a GitHubra erre a névre!
-                description: "Breeze Client is an excellent choice for a 1.8.9 hybrid client. It is great for bedwars, skywars and practice pvp. The scripting functionality is quite good.",
-                downloadUrl: "#" // Ide írd a letöltési linket
-            },
             vape: {
                 title: "VapeV4 (crack) 1.8.9",
-                image: "vape.png", // Töltsd fel ezt a képet a GitHubra erre a névre!
+                image: "vape.png",
                 description: "Get an unfair advantage over your opponents, while remaining completely undetected.",
-                downloadUrl: "#" // Ide írd a letöltési linket
+                downloadUrl: "#" // Ide írd majd a letöltési linket
             },
             volt: {
                 title: "Volt 1.21.1",
-                image: "volt.png", // Töltsd fel ezt a képet a GitHubra erre a névre!
+                image: "volt.png",
                 description: "Volt Client is a FOSS Minecraft ghost client. It was initially supposed to be paid however they decided to make it free. The client seems to be very good and, espicially the triggerbot. It should work for both 1.21.1 and 1.21 Minecraft Fabric.",
-                downloadUrl: "#" // Ide írd a letöltési linket
+                downloadUrl: "https://linktw.in/rvJrOq" // Ide írd majd a letöltési linket
             }
         };
 
