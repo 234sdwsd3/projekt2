@@ -237,15 +237,13 @@
         <!-- 2. KATEGÓRIA LISTA NÉZET -->
         <div id="itemsView" class="view">
             <h2 id="categoryTitle" class="section-title">Category Name</h2>
-            <div id="itemsGrid" class="grid-container" style="width: 100%;">
-                <!-- Elemek betöltése dinamikusan JS-ből -->
-            </div>
+            <div id="itemsGrid" class="grid-container" style="width: 100%;"></div>
             <div class="btn-group">
                 <button class="btn btn-back" onclick="showView('categoriesView')">← Back to Categories</button>
             </div>
         </div>
 
-        <!-- 3. RÉSZLETES NÉZET (Leírás + Letöltés) -->
+        <!-- 3. RÉSZLETES NÉZET -->
         <div id="detailView" class="view">
             <h2 id="detailTitle" class="section-title">Item Title</h2>
             <p id="detailDescription" class="description"></p>
@@ -258,10 +256,10 @@
 
     </div>
 
+    <!-- Fő logika -->
     <script>
         let currentCategory = '';
 
-        // Adatok eltárolása (minden kulcs kisbetűs)
         const data = {
             spoofer: [
                 {
@@ -299,9 +297,7 @@
         }
 
         function openCategory(catKey) {
-            // Kisbetűssé alakítjuk, hogy a hivatkozás biztosan megtalálja a kulcsot
             currentCategory = catKey.toLowerCase();
-            
             const categoryName = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1);
             document.getElementById('categoryTitle').innerText = categoryName;
 
@@ -309,48 +305,6 @@
             grid.innerHTML = '';
 
             const items = data[currentCategory] || [];
-
-            if (items.length === 0) {
-                grid.innerHTML = '<p style="color: #a0a5b1; grid-column: 1/-1;">No items available yet.</p>';
-            } else {
-                items.forEach((item, index) => {
-                    const card = document.createElement('div');
-                    card.className = 'card';
-                    card.onclick = () => openDetail(index);
-                    card.innerHTML = `<h3>${item.title}</h3>`;
-                    grid.appendChild(card);
-                });
-            }
-
-            showView('itemsView');
-        }
-
-        function openDetail(index) {
-            const item = data[currentCategory][index];
-            if (!item) return;
-
-            document.getElementById('detailTitle').innerText = item.title;
-            document.getElementById('detailDescription').innerText = item.description || "No description provided.";
-            document.getElementById('detailDownloadLink').href = item.downloadUrl || '#';
-
-            showView('detailView');
-        }
-    </script>
-
-        function showView(viewId) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
-        }
-
-        function openCategory(catKey) {
-            currentCategory = catKey;
-            const categoryName = catKey.charAt(0).toUpperCase() + catKey.slice(1);
-            document.getElementById('categoryTitle').innerText = categoryName;
-
-            const grid = document.getElementById('itemsGrid');
-            grid.innerHTML = '';
-
-            const items = data[catKey] || [];
 
             if (items.length === 0) {
                 grid.innerHTML = '<p style="color: #a0a5b1; grid-column: 1/-1;">No items available yet.</p>';
